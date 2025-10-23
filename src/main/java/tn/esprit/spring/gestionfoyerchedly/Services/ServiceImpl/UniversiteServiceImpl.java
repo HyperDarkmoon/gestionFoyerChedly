@@ -16,22 +16,14 @@ public class UniversiteServiceImpl implements IUniversiteService {
     UniversiteRepository universiteRepository;
 
     @Override
-    public List<Universite> retrieveAllUniversities() {
-        return universiteRepository.findAll();
-    }
+    public List<Universite> retrieveAllUniversities() { return universiteRepository.findAll(); }
 
     @Override
-    public Universite addUniversite(Universite u) {
-        return universiteRepository.save(u);
-    }
+    public Universite addUniversite(Universite u) { return universiteRepository.save(u); }
 
     @Override
-    public Universite updateUniversite(Universite u) {
-        return universiteRepository.save(u);
-    }
+    public Universite updateUniversite(Universite u) { return universiteRepository.save(u); }
 
     @Override
-    public Universite retrieveUniversite(long idUniversite) {
-        return universiteRepository.findById(idUniversite).orElse(null);
-    }
+    public Universite retrieveUniversite(long idUniversite) { return universiteRepository.findById(idUniversite).orElse(null); }
 }

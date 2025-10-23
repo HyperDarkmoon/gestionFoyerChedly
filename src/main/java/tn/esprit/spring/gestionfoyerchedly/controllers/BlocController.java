@@ -1,9 +1,6 @@
 package tn.esprit.spring.gestionfoyerchedly.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.gestionfoyerchedly.Entity.Bloc;
 import tn.esprit.spring.gestionfoyerchedly.Services.ServiceInterface.IBlocService;
 
@@ -27,15 +24,18 @@ public class BlocController {
         return blocService.addBloc(bloc);
     }
 
-    public Bloc updateBloc(Bloc bloc) {
+    @PutMapping("/updateBloc")
+    public Bloc updateBloc(@RequestBody Bloc bloc) {
         return blocService.updateBloc(bloc);
     }
 
-    public Bloc retrieveBloc(long idBloc) {
+    @GetMapping("/getBloc/{idBloc}")
+    public Bloc retrieveBloc(@PathVariable long idBloc) {
         return blocService.retrieveBloc(idBloc);
     }
 
-    public void removeBloc(long idBloc) {
+    @DeleteMapping("/removeBloc/{idBloc}")
+    public void removeBloc(@PathVariable long idBloc) {
         blocService.removeBloc(idBloc);
     }
 }
