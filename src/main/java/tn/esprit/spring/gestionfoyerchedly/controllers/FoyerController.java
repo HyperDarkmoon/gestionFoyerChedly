@@ -6,7 +6,14 @@ import tn.esprit.spring.gestionfoyerchedly.Services.ServiceInterface.IFoyerServi
 
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
+@Tag(name = "Foyer", description = "Operations related to Foyer resources")
 public class FoyerController {
     private final IFoyerService foyerService;
 
@@ -15,27 +22,51 @@ public class FoyerController {
     }
 
     @GetMapping("/getAllFoyers")
+    @Operation(summary = "List all foyers", description = "Retrieve the complete list of foyers")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "List of foyers returned successfully")
+    })
     public List<Foyer> retrieveFoyers() {
         return foyerService.retrieveAllFoyers();
     }
 
     @PostMapping("/addFoyer")
+    @Operation(summary = "Create a foyer", description = "Add a new foyer")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Foyer created successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request payload")
+    })
     public Foyer addFoyer(@RequestBody Foyer foyer) {
         return foyerService.addFoyer(foyer);
     }
 
     @PutMapping("/updateFoyer")
+    @Operation(summary = "Update a foyer", description = "Update an existing foyer")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Foyer updated successfully"),
+            @ApiResponse(responseCode = "404", description = "Foyer not found")
+    })
     public Foyer updateFoyer(@RequestBody Foyer foyer) {
         return foyerService.updateFoyer(foyer);
     }
 
     @GetMapping("/getFoyer/{idFoyer}")
-    public Foyer retrieveFoyer(@PathVariable long idFoyer) {
+    @Operation(summary = "Get a foyer by ID", description = "Retrieve a single foyer by its identifier")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Foyer returned successfully"),
+            @ApiResponse(responseCode = "404", description = "Foyer not found")
+    })
+    public Foyer retrieveFoyer(@PathVariable @Parameter(description = "Foyer identifier") long idFoyer) {
         return foyerService.retrieveFoyer(idFoyer);
     }
 
     @DeleteMapping("/removeFoyer/{idFoyer}")
-    public void removeFoyer(@PathVariable long idFoyer) {
+    @Operation(summary = "Delete a foyer", description = "Remove a foyer by its identifier")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Foyer deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Foyer not found")
+    })
+    public void removeFoyer(@PathVariable @Parameter(description = "Foyer identifier") long idFoyer) {
         foyerService.removeFoyer(idFoyer);
     }
 }
