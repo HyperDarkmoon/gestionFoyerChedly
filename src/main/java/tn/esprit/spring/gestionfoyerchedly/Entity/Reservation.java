@@ -1,5 +1,6 @@
 package tn.esprit.spring.gestionfoyerchedly.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -12,7 +13,6 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Reservation implements Serializable {
 
@@ -23,8 +23,10 @@ public class Reservation implements Serializable {
     boolean estValide;
 
     @ManyToMany(mappedBy = "reservations")
+    @JsonIgnore
     List<Etudiant> etudiants;
 
     @ManyToMany(mappedBy = "reservations")
+    @JsonIgnore
     List<Chambre> chambres;
 }

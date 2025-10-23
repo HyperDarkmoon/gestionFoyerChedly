@@ -1,5 +1,6 @@
 package tn.esprit.spring.gestionfoyerchedly.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -11,7 +12,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Etudiant {
 
@@ -30,5 +30,6 @@ public class Etudiant {
             joinColumns = @JoinColumn(name = "idEtudiant"),
             inverseJoinColumns = @JoinColumn(name = "idReservation")
     )
+    @JsonIgnore
     List<Reservation> reservations;
 }

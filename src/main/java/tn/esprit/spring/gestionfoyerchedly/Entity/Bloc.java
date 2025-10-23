@@ -1,5 +1,6 @@
 package tn.esprit.spring.gestionfoyerchedly.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -10,7 +11,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Bloc {
 
@@ -22,6 +22,7 @@ public class Bloc {
 
     @ManyToOne
     @JoinColumn(name = "idFoyer")
+    @JsonIgnore
     Foyer foyer;
 
     @OneToMany(mappedBy = "bloc")

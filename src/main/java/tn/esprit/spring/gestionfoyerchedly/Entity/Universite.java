@@ -1,16 +1,15 @@
 package tn.esprit.spring.gestionfoyerchedly.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Universite {
 
@@ -21,5 +20,6 @@ public class Universite {
     String adresse;
 
     @OneToOne
+    @JsonIgnore
     Foyer foyer;
 }

@@ -1,5 +1,6 @@
 package tn.esprit.spring.gestionfoyerchedly.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -10,7 +11,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Chambre {
 
@@ -24,6 +24,7 @@ public class Chambre {
 
     @ManyToOne
     @JoinColumn(name = "idBloc")
+    @JsonIgnore
     Bloc bloc;
 
     @ManyToMany
@@ -32,5 +33,6 @@ public class Chambre {
             joinColumns = @JoinColumn(name = "idChambre"),
             inverseJoinColumns = @JoinColumn(name = "idReservation")
     )
+    @JsonIgnore
     List<Reservation> reservations;
 }
