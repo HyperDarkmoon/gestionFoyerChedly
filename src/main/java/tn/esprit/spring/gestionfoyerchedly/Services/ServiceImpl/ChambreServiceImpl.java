@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.spring.gestionfoyerchedly.Entity.Chambre;
-import tn.esprit.spring.gestionfoyerchedly.Entity.TypeChambre;
 import tn.esprit.spring.gestionfoyerchedly.Repository.ChambreRepository;
 import tn.esprit.spring.gestionfoyerchedly.Services.ServiceInterface.IChambreService;
 
@@ -14,7 +13,7 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class ChambreServiceImpl implements IChambreService {
-    private final ChambreRepository chambreRepository;
+    ChambreRepository chambreRepository;
 
     @Override
     public List<Chambre> retrieveAllChambres() { return chambreRepository.findAll(); }
@@ -27,9 +26,4 @@ public class ChambreServiceImpl implements IChambreService {
 
     @Override
     public Chambre retrieveChambre(long idChambre) { return chambreRepository.findById(idChambre).orElse(null); }
-
-    @Override
-    public List<Chambre> findByTypeCAndBlocFoyerCapaciteFoyer(TypeChambre typeC, long capaciteFoyer) {
-        return chambreRepository.findByTypeCAndBlocFoyerCapaciteFoyer(typeC, capaciteFoyer);
-    }
 }

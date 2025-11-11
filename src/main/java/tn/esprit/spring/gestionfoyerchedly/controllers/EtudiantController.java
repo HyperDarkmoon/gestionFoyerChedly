@@ -11,10 +11,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
 
 @RestController
 @Tag(name = "Etudiant", description = "Operations related to Etudiant resources")
@@ -40,16 +36,6 @@ public class EtudiantController {
             @ApiResponse(responseCode = "201", description = "Students created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid request payload")
     })
-    @ResponseStatus(HttpStatus.CREATED)
-    @io.swagger.v3.oas.annotations.parameters.RequestBody(
-        description = "List of students to create",
-        required = true,
-        content = @Content(mediaType = "application/json",
-            examples = {
-                @ExampleObject(name = "Basic",
-                    value = "[\n  {\n    \"nomEtudiant\": \"Doe\",\n    \"prenomEtudiant\": \"John\",\n    \"cin\": 12345678,\n    \"ecole\": \"ESPRIT\",\n    \"dateNaissance\": \"2000-01-01\"\n  },\n  {\n    \"nomEtudiant\": \"Smith\",\n    \"prenomEtudiant\": \"Anna\",\n    \"cin\": 87654321,\n    \"ecole\": \"ENIT\",\n    \"dateNaissance\": \"1999-05-10\"\n  }\n]")
-            })
-    )
     public List<Etudiant> addEtudiants(@RequestBody List<Etudiant> etudiants) {
         return etudiantService.addEtudiants(etudiants);
     }
@@ -80,7 +66,6 @@ public class EtudiantController {
             @ApiResponse(responseCode = "204", description = "Student deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Student not found")
     })
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeEtudiant(@PathVariable @Parameter(description = "Student identifier") long idEtudiant) {
         etudiantService.removeEtudiant(idEtudiant);
     }

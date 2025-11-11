@@ -9,10 +9,4 @@ public interface IBlocService {
 	Bloc updateBloc(Bloc bloc);
 	Bloc retrieveBloc(long idBloc);
 	void removeBloc(long idBloc);
-
-	// Find blocs by the associated universite name
-	List<Bloc> findByFoyerUniversiteNomUniversite(String nom);
-
-	// Assign chambres to a bloc by chambre numbers
-	Bloc affecterChambresABloc(List<Double> numChambre, int IdBloc);
 }
