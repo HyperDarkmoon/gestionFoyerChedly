@@ -13,13 +13,19 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class FoyerServiceImpl implements IFoyerService {
-    FoyerRepository foyerRepository;
+    private final FoyerRepository foyerRepository;
 
     @Override
     public List<Foyer> retrieveAllFoyers() { return foyerRepository.findAll(); }
 
     @Override
-    public Foyer addFoyer(Foyer f) { return foyerRepository.save(f); }
+    public Foyer addFoyer(Foyer f) {
+        // Force insert: if client supplied an ID, reset it to 0 so JPA treats it as new
+        if (f.getIdFoyer() != 0) {
+            f.setIdFoyer(0);
+        }
+        return foyerRepository.save(f);
+    }
 
     @Override
     public Foyer updateFoyer(Foyer f) { return foyerRepository.save(f); }

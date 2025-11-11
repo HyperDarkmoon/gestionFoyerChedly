@@ -8,5 +8,11 @@ public interface IUniversiteService {
 	Universite addUniversite(Universite u);
 	Universite updateUniversite(Universite u);
 	Universite retrieveUniversite(long idUniversite);
+
+	// Assign a foyer to the university found by its name
+	Universite affecterFoyerAUniversite(long idFoyer, String nomUniversite);
+
+	// Unassign/clear the foyer from a university by id
+	Universite desaffecterFoyerAUniversite(long idUniversite);
 }
 

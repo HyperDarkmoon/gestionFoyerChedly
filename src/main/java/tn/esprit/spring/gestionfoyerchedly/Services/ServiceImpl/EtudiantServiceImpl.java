@@ -13,7 +13,7 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class EtudiantServiceImpl implements IEtudiantService {
-    EtudiantRepository etudiantRepository;
+    private final EtudiantRepository etudiantRepository;
 
     @Override
     public List<Etudiant> retrieveAllEtudiants() { return etudiantRepository.findAll(); }

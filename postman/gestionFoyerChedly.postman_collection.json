@@ -1,0 +1,131 @@
+{
+  "info": {
+    "name": "Gestion Foyer Chedly API",
+    "description": "Postman collection for the Gestion Foyer API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": {
+      "major": 1,
+      "minor": 0,
+      "patch": 0
+    }
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8090" }
+  ],
+  "item": [
+    {
+      "name": "Foyer",
+      "item": [
+        {
+          "name": "Get all foyers",
+          "request": { "method": "GET", "url": "{{baseUrl}}/getAllFoyers" }
+        },
+        {
+          "name": "Add foyer",
+          "request": {
+            "method": "POST",
+            "header": [{"key":"Content-Type","value":"application/json"}],
+            "url": "{{baseUrl}}/addFoyer",
+            "body": { "mode": "raw", "raw": "{\n  \"nomFoyer\": \"Foyer Central\",\n  \"capaciteFoyer\": 500\n}" }
+          }
+        },
+        {
+          "name": "Update foyer",
+          "request": {
+            "method": "PUT",
+            "header": [{"key":"Content-Type","value":"application/json"}],
+            "url": "{{baseUrl}}/updateFoyer",
+            "body": { "mode": "raw", "raw": "{\n  \"idFoyer\": 1,\n  \"nomFoyer\": \"Foyer Central\",\n  \"capaciteFoyer\": 600\n}" }
+          }
+        },
+        { "name": "Get foyer by id", "request": { "method": "GET", "url": "{{baseUrl}}/getFoyer/1" } },
+        { "name": "Delete foyer", "request": { "method": "DELETE", "url": "{{baseUrl}}/removeFoyer/1" } }
+      ]
+    },
+    {
+      "name": "Bloc",
+      "item": [
+        { "name": "Get all blocs", "request": { "method": "GET", "url": "{{baseUrl}}/getAllBlocs" } },
+        {
+          "name": "Add bloc",
+          "request": {
+            "method": "POST",
+            "header": [{"key":"Content-Type","value":"application/json"}],
+            "url": "{{baseUrl}}/addBloc",
+            "body": { "mode": "raw", "raw": "{\n  \"nomBloc\": \"Bloc A\",\n  \"capaciteBloc\": 120\n}" }
+          }
+        },
+        { "name": "Get bloc by id", "request": { "method": "GET", "url": "{{baseUrl}}/getBloc/1" } },
+        { "name": "Delete bloc", "request": { "method": "DELETE", "url": "{{baseUrl}}/removeBloc/1" } },
+        { "name": "Find blocs by universite name", "request": { "method": "GET", "url": "{{baseUrl}}/blocs/by-universite?nom=ESPRIT" } }
+      ]
+    },
+    {
+      "name": "Chambre",
+      "item": [
+        { "name": "Get all chambres", "request": { "method": "GET", "url": "{{baseUrl}}/getAllChambres" } },
+        {
+          "name": "Add chambre",
+          "request": {
+            "method": "POST",
+            "header": [{"key":"Content-Type","value":"application/json"}],
+            "url": "{{baseUrl}}/addChambre",
+            "body": { "mode": "raw", "raw": "{\n  \"numeroChambre\": 101,\n  \"typeC\": \"SIMPLE\"\n}" }
+          }
+        },
+        { "name": "Get chambre by id", "request": { "method": "GET", "url": "{{baseUrl}}/getChambre/1" } },
+        { "name": "Search chambres", "request": { "method": "GET", "url": "{{baseUrl}}/chambres/search?type=SIMPLE&capaciteFoyer=500" } }
+      ]
+    },
+    {
+      "name": "Etudiant",
+      "item": [
+        { "name": "Get all etudiants", "request": { "method": "GET", "url": "{{baseUrl}}/getAllEtudiants" } },
+        {
+          "name": "Add etudiants (bulk)",
+          "request": {
+            "method": "POST",
+            "header": [{"key":"Content-Type","value":"application/json"}],
+            "url": "{{baseUrl}}/addEtudiants",
+            "body": { "mode": "raw", "raw": "[\n  {\n    \"nomEtudiant\": \"Doe\",\n    \"prenomEtudiant\": \"John\",\n    \"cin\": 12345678,\n    \"ecole\": \"ESPRIT\",\n    \"dateNaissance\": \"2000-01-01\"\n  },\n  {\n    \"nomEtudiant\": \"Smith\",\n    \"prenomEtudiant\": \"Anna\",\n    \"cin\": 87654321,\n    \"ecole\": \"ENIT\",\n    \"dateNaissance\": \"1999-05-10\"\n  }\n]" }
+          }
+        },
+        { "name": "Get etudiant by id", "request": { "method": "GET", "url": "{{baseUrl}}/getEtudiant/1" } },
+        { "name": "Delete etudiant", "request": { "method": "DELETE", "url": "{{baseUrl}}/removeEtudiant/1" } }
+      ]
+    },
+    {
+      "name": "Universite",
+      "item": [
+        { "name": "Get all universites", "request": { "method": "GET", "url": "{{baseUrl}}/getAllUniversites" } },
+        {
+          "name": "Add universite",
+          "request": {
+            "method": "POST",
+            "header": [{"key":"Content-Type","value":"application/json"}],
+            "url": "{{baseUrl}}/addUniversite",
+            "body": { "mode": "raw", "raw": "{\n  \"nomUniversite\": \"ESPRIT\",\n  \"adresse\": \"Pôle Technologique\"\n}" }
+          }
+        },
+        { "name": "Get universite by id", "request": { "method": "GET", "url": "{{baseUrl}}/getUniversite/1" } },
+        { "name": "Affecter foyer à université", "request": { "method": "PUT", "url": "{{baseUrl}}/universites/affecterFoyer?idFoyer=1&nomUniversite=ESPRIT" } }
+      ]
+    },
+    {
+      "name": "Reservation",
+      "item": [
+        { "name": "Get all reservations", "request": { "method": "GET", "url": "{{baseUrl}}/getAllReservations" } },
+        {
+          "name": "Update reservation",
+          "request": {
+            "method": "PUT",
+            "header": [{"key":"Content-Type","value":"application/json"}],
+            "url": "{{baseUrl}}/updateReservation",
+            "body": { "mode": "raw", "raw": "{\n  \"idReservation\": 1,\n  \"anneeUniversitaire\": \"2025-09-01\",\n  \"estValide\": true\n}" }
+          }
+        },
+        { "name": "Get reservation by id", "request": { "method": "GET", "url": "{{baseUrl}}/getReservation/1" } }
+      ]
+    }
+  ]
+}

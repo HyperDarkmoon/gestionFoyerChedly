@@ -2,6 +2,7 @@ package tn.esprit.spring.gestionfoyerchedly.controllers;
 
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.gestionfoyerchedly.Entity.Chambre;
+import tn.esprit.spring.gestionfoyerchedly.Entity.TypeChambre;
 import tn.esprit.spring.gestionfoyerchedly.Services.ServiceInterface.IChambreService;
 
 import java.util.List;
@@ -11,6 +12,10 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 
 @RestController
 @Tag(name = "Chambre", description = "Operations related to Chambre resources")
@@ -36,6 +41,16 @@ public class ChambreController {
             @ApiResponse(responseCode = "201", description = "Chambre created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid request payload")
     })
+    @ResponseStatus(HttpStatus.CREATED)
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(
+        description = "Chambre to create",
+        required = true,
+        content = @Content(mediaType = "application/json",
+            examples = {
+                @ExampleObject(name = "Basic",
+                    value = "{\n  \"numeroChambre\": 101,\n  \"typeC\": \"SIMPLE\",\n  \"bloc\": { \n    \"idBloc\": 1 \n  }\n}")
+            })
+    )
     public Chambre addChambre(@RequestBody Chambre chambre) {
         return chambreService.addChambre(chambre);
     }
@@ -58,5 +73,15 @@ public class ChambreController {
     })
     public Chambre retrieveChambre(@PathVariable @Parameter(description = "Chambre identifier") long idChambre) {
         return chambreService.retrieveChambre(idChambre);
+    }
+
+    @GetMapping("/chambres/search")
+    @Operation(summary = "Find chambres by type and foyer capacity", description = "Retrieve chambres filtered by type and capacity of their foyer")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "List of chambres returned successfully")
+    })
+    public List<Chambre> findChambresByTypeAndFoyerCapacity(@RequestParam("type") @Parameter(description = "Type de chambre") TypeChambre type,
+                                                            @RequestParam("capaciteFoyer") @Parameter(description = "Capacité du foyer") long capaciteFoyer) {
+        return chambreService.findByTypeCAndBlocFoyerCapaciteFoyer(type, capaciteFoyer);
     }
 }

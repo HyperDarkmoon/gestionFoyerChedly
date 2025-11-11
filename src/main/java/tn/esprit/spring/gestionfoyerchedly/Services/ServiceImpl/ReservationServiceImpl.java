@@ -13,7 +13,7 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class ReservationServiceImpl implements IReservationService {
-    ReservationRepository reservationRepository;
+    private final ReservationRepository reservationRepository;
 
     @Override
     public List<Reservation> retrieveAllReservation() {
@@ -26,7 +26,7 @@ public class ReservationServiceImpl implements IReservationService {
     }
 
     @Override
-    public Reservation retrieveReservation(String idReservation) {
+    public Reservation retrieveReservation(long idReservation) {
         return reservationRepository.findById(idReservation).orElse(null);
     }
 }

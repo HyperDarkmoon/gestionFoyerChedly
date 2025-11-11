@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
+import org.springframework.context.annotation.Configuration;
 
 @OpenAPIDefinition(
         info = @Info(
@@ -14,6 +15,7 @@ import io.swagger.v3.oas.annotations.info.License;
                 license = @License(name = "MIT", url = "https://opensource.org/licenses/MIT")
         )
 )
+@Configuration
 public class OpenApiConfig {
     // Intentionally empty; annotations above configure the OpenAPI document
 }

@@ -46,7 +46,7 @@ public class ReservationController {
             @ApiResponse(responseCode = "200", description = "Reservation returned successfully"),
             @ApiResponse(responseCode = "404", description = "Reservation not found")
     })
-    public Reservation retrieveReservation(@PathVariable @Parameter(description = "Reservation identifier") String idReservation) {
+    public Reservation retrieveReservation(@PathVariable @Parameter(description = "Reservation identifier") long idReservation) {
         return reservationService.retrieveReservation(idReservation);
     }
 }
