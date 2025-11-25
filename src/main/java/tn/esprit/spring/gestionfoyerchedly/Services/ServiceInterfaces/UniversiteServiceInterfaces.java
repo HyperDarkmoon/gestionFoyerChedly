@@ -1,8 +1,8 @@
-package tn.esprit.spring.gestionfoyerchedly.services.ServiceInterfaces;
-
-import tn.esprit.spring.gestionfoyerchedly.entities.Universite;
+package tn.esprit.spring.gestionfoyerchedly.Services.ServiceInterfaces;
 
 import java.util.List;
+
+import tn.esprit.spring.gestionfoyerchedly.Entity.Universite;
 
 public interface UniversiteServiceInterfaces {
     List<Universite> retrieveAllUniversities();

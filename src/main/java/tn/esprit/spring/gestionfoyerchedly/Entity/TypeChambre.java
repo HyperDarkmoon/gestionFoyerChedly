@@ -1,4 +1,4 @@
-package tn.esprit.spring.gestionfoyerchedly.entities;
+package tn.esprit.spring.gestionfoyerchedly.Entity;
 
 public enum TypeChambre {
     SIMPLE,

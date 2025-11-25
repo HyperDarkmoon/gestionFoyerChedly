@@ -1,15 +1,16 @@
-package tn.esprit.spring.gestionfoyerchedly.services.ServiceImp;
+package tn.esprit.spring.gestionfoyerchedly.Services.ServiceImp;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tn.esprit.spring.gestionfoyerchedly.entities.Chambre;
-import tn.esprit.spring.gestionfoyerchedly.entities.Etudiant;
-import tn.esprit.spring.gestionfoyerchedly.entities.Reservation;
-import tn.esprit.spring.gestionfoyerchedly.repositories.ChambreRepository;
-import tn.esprit.spring.gestionfoyerchedly.repositories.EtudiantRepository;
-import tn.esprit.spring.gestionfoyerchedly.repositories.ReservationRepository;
-import tn.esprit.spring.gestionfoyerchedly.services.ServiceInterfaces.ReservationServiceInterfaces;
+
+import tn.esprit.spring.gestionfoyerchedly.Entity.Chambre;
+import tn.esprit.spring.gestionfoyerchedly.Entity.Etudiant;
+import tn.esprit.spring.gestionfoyerchedly.Entity.Reservation;
+import tn.esprit.spring.gestionfoyerchedly.Repository.ChambreRepository;
+import tn.esprit.spring.gestionfoyerchedly.Repository.EtudiantRepository;
+import tn.esprit.spring.gestionfoyerchedly.Repository.ReservationRepository;
+import tn.esprit.spring.gestionfoyerchedly.Services.ServiceInterfaces.ReservationServiceInterfaces;
 
 import java.util.ArrayList;
 import java.util.List;

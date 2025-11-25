@@ -1,13 +1,14 @@
-package tn.esprit.spring.gestionfoyerchedly.services.ServiceImp;
+package tn.esprit.spring.gestionfoyerchedly.Services.ServiceImp;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import tn.esprit.spring.gestionfoyerchedly.entities.Bloc;
-import tn.esprit.spring.gestionfoyerchedly.entities.Chambre;
-import tn.esprit.spring.gestionfoyerchedly.entities.TypeChambre;
-import tn.esprit.spring.gestionfoyerchedly.repositories.BlocRepository;
-import tn.esprit.spring.gestionfoyerchedly.repositories.ChambreRepository;
-import tn.esprit.spring.gestionfoyerchedly.services.ServiceInterfaces.ChambreServiceInterfaces;
+
+import tn.esprit.spring.gestionfoyerchedly.Entity.Bloc;
+import tn.esprit.spring.gestionfoyerchedly.Entity.Chambre;
+import tn.esprit.spring.gestionfoyerchedly.Entity.TypeChambre;
+import tn.esprit.spring.gestionfoyerchedly.Repository.BlocRepository;
+import tn.esprit.spring.gestionfoyerchedly.Repository.ChambreRepository;
+import tn.esprit.spring.gestionfoyerchedly.Services.ServiceInterfaces.ChambreServiceInterfaces;
 
 import java.util.List;
 import java.time.LocalDate;
@@ -39,19 +40,19 @@ public class ChambreServiceImp implements ChambreServiceInterfaces {
     }
 
     @Override
-    public List<Chambre> getChambresParBlocEtType(long idBloc, tn.esprit.spring.gestionfoyerchedly.entities.TypeChambre typeC) {
+    public List<Chambre> getChambresParBlocEtType(long idBloc, tn.esprit.spring.gestionfoyerchedly.Entity.TypeChambre typeC) {
         // Use derived keywords implementation by default
         return chambreRepository.findByBloc_IdBlocAndTypeC(idBloc, typeC);
     }
 
     // Alternative JPQL approach (not part of interface, but available for controller demo)
-    public List<Chambre> getChambresParBlocEtTypeJPQL(long idBloc, tn.esprit.spring.gestionfoyerchedly.entities.TypeChambre typeC) {
+    public List<Chambre> getChambresParBlocEtTypeJPQL(long idBloc, tn.esprit.spring.gestionfoyerchedly.Entity.TypeChambre typeC) {
         // Without JPQL we simply delegate to the same derived method
         return chambreRepository.findByBloc_IdBlocAndTypeC(idBloc, typeC);
     }
 
     @Override
-    public List<Chambre> getChambresNonReserveParNomUniversiteEtTypeChambre(String nomUniversite, tn.esprit.spring.gestionfoyerchedly.entities.TypeChambre type) {
+    public List<Chambre> getChambresNonReserveParNomUniversiteEtTypeChambre(String nomUniversite, tn.esprit.spring.gestionfoyerchedly.Entity.TypeChambre type) {
         int targetYear = LocalDate.now().getYear();
         // Fetch all chambres for this université and type, then filter out those having a reservation in the same year
         List<Chambre> candidates = chambreRepository.findByTypeCAndBloc_Foyer_Universite_NomUniversite(type, nomUniversite);

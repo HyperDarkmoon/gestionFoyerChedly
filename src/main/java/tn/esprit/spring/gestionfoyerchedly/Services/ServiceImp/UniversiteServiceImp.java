@@ -1,15 +1,16 @@
-package tn.esprit.spring.gestionfoyerchedly.services.ServiceImp;
+package tn.esprit.spring.gestionfoyerchedly.Services.ServiceImp;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
-import tn.esprit.spring.gestionfoyerchedly.entities.Universite;
-import tn.esprit.spring.gestionfoyerchedly.entities.Foyer;
-import tn.esprit.spring.gestionfoyerchedly.repositories.UniversiteRepository;
-import tn.esprit.spring.gestionfoyerchedly.repositories.FoyerRepository;
-import tn.esprit.spring.gestionfoyerchedly.services.ServiceInterfaces.UniversiteServiceInterfaces;
+
+import tn.esprit.spring.gestionfoyerchedly.Entity.Foyer;
+import tn.esprit.spring.gestionfoyerchedly.Entity.Universite;
+import tn.esprit.spring.gestionfoyerchedly.Repository.FoyerRepository;
+import tn.esprit.spring.gestionfoyerchedly.Repository.UniversiteRepository;
+import tn.esprit.spring.gestionfoyerchedly.Services.ServiceInterfaces.UniversiteServiceInterfaces;
 
 import java.util.List;
 

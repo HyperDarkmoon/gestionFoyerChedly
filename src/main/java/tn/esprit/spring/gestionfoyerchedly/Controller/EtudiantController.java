@@ -1,11 +1,12 @@
-package tn.esprit.spring.gestionfoyerchedly.controllers;
+package tn.esprit.spring.gestionfoyerchedly.Controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.spring.gestionfoyerchedly.entities.Etudiant;
-import tn.esprit.spring.gestionfoyerchedly.services.ServiceInterfaces.EtudiantServiceInterfaces;
+
+import tn.esprit.spring.gestionfoyerchedly.Entity.Etudiant;
+import tn.esprit.spring.gestionfoyerchedly.Services.ServiceInterfaces.EtudiantServiceInterfaces;
 
 import java.util.List;
 

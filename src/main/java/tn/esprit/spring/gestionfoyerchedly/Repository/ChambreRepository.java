@@ -1,8 +1,9 @@
-package tn.esprit.spring.gestionfoyerchedly.repositories;
+package tn.esprit.spring.gestionfoyerchedly.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import tn.esprit.spring.gestionfoyerchedly.entities.Chambre;
-import tn.esprit.spring.gestionfoyerchedly.entities.TypeChambre;
+
+import tn.esprit.spring.gestionfoyerchedly.Entity.Chambre;
+import tn.esprit.spring.gestionfoyerchedly.Entity.TypeChambre;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package tn.esprit.spring.gestionfoyerchedly.entities;
+package tn.esprit.spring.gestionfoyerchedly.Entity;
 
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;

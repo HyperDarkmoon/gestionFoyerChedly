@@ -1,7 +1,8 @@
-package tn.esprit.spring.gestionfoyerchedly.repositories;
+package tn.esprit.spring.gestionfoyerchedly.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import tn.esprit.spring.gestionfoyerchedly.entities.Etudiant;
+
+import tn.esprit.spring.gestionfoyerchedly.Entity.Etudiant;
 
 import java.util.List;
 import java.util.Optional;

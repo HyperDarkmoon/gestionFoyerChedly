@@ -1,4 +1,4 @@
-package tn.esprit.spring.gestionfoyerchedly.controllers;
+package tn.esprit.spring.gestionfoyerchedly.Controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -6,8 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.spring.gestionfoyerchedly.entities.Bloc;
-import tn.esprit.spring.gestionfoyerchedly.services.ServiceInterfaces.BlocServiceInterfaces;
+
+import tn.esprit.spring.gestionfoyerchedly.Entity.Bloc;
+import tn.esprit.spring.gestionfoyerchedly.Services.ServiceInterfaces.BlocServiceInterfaces;
 
 import java.util.List;
 

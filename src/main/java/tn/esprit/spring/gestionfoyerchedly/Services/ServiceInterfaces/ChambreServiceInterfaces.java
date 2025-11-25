@@ -1,10 +1,10 @@
-package tn.esprit.spring.gestionfoyerchedly.services.ServiceInterfaces;
-
-import tn.esprit.spring.gestionfoyerchedly.entities.Bloc;
-import tn.esprit.spring.gestionfoyerchedly.entities.Chambre;
-import tn.esprit.spring.gestionfoyerchedly.entities.TypeChambre;
+package tn.esprit.spring.gestionfoyerchedly.Services.ServiceInterfaces;
 
 import java.util.List;
+
+import tn.esprit.spring.gestionfoyerchedly.Entity.Bloc;
+import tn.esprit.spring.gestionfoyerchedly.Entity.Chambre;
+import tn.esprit.spring.gestionfoyerchedly.Entity.TypeChambre;
 
 public interface ChambreServiceInterfaces {
     List<Chambre> retrieveAllChambres();

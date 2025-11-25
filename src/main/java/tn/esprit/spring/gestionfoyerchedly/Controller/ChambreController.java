@@ -1,13 +1,14 @@
-package tn.esprit.spring.gestionfoyerchedly.controllers;
+package tn.esprit.spring.gestionfoyerchedly.Controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.spring.gestionfoyerchedly.entities.Chambre;
-import tn.esprit.spring.gestionfoyerchedly.entities.TypeChambre;
-import tn.esprit.spring.gestionfoyerchedly.repositories.ChambreRepository;
-import tn.esprit.spring.gestionfoyerchedly.services.ServiceInterfaces.ChambreServiceInterfaces;
+
+import tn.esprit.spring.gestionfoyerchedly.Entity.Chambre;
+import tn.esprit.spring.gestionfoyerchedly.Entity.TypeChambre;
+import tn.esprit.spring.gestionfoyerchedly.Repository.ChambreRepository;
+import tn.esprit.spring.gestionfoyerchedly.Services.ServiceInterfaces.ChambreServiceInterfaces;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -61,7 +62,7 @@ public class ChambreController {
     @Operation(summary = "Chambres par bloc et type (JPQL)", description = "Filtre les chambres d'un bloc selon leur type - version JPQL explicite")
     public List<Chambre> chambresParBlocEtTypeJPQL(@RequestParam long idBloc, @RequestParam TypeChambre type){
         // Using implementation method directly (cast to concrete class not required since we added a helper method) 
-        if(chambreService instanceof tn.esprit.spring.gestionfoyerchedly.services.ServiceImp.ChambreServiceImp impl){
+        if(chambreService instanceof tn.esprit.spring.gestionfoyerchedly.Services.ServiceImp.ChambreServiceImp impl){
             return impl.getChambresParBlocEtTypeJPQL(idBloc, type);
         }
         return chambreService.getChambresParBlocEtType(idBloc, type);

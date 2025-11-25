@@ -1,10 +1,11 @@
-package tn.esprit.spring.gestionfoyerchedly.services.ServiceImp;
+package tn.esprit.spring.gestionfoyerchedly.Services.ServiceImp;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import tn.esprit.spring.gestionfoyerchedly.entities.Etudiant;
-import tn.esprit.spring.gestionfoyerchedly.repositories.EtudiantRepository;
-import tn.esprit.spring.gestionfoyerchedly.services.ServiceInterfaces.EtudiantServiceInterfaces;
+
+import tn.esprit.spring.gestionfoyerchedly.Entity.Etudiant;
+import tn.esprit.spring.gestionfoyerchedly.Repository.EtudiantRepository;
+import tn.esprit.spring.gestionfoyerchedly.Services.ServiceInterfaces.EtudiantServiceInterfaces;
 
 import java.util.List;
 

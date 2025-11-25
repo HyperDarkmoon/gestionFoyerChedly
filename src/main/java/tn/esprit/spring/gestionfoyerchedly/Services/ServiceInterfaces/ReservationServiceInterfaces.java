@@ -1,9 +1,9 @@
-package tn.esprit.spring.gestionfoyerchedly.services.ServiceInterfaces;
-
-import tn.esprit.spring.gestionfoyerchedly.entities.Reservation;
+package tn.esprit.spring.gestionfoyerchedly.Services.ServiceInterfaces;
 
 import java.util.Date;
 import java.util.List;
+
+import tn.esprit.spring.gestionfoyerchedly.Entity.Reservation;
 
 public interface ReservationServiceInterfaces {
     List<Reservation> retrieveAllReservation();
