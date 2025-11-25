@@ -1,8 +1,6 @@
 package tn.esprit.spring.gestionfoyerchedly.Services.ServiceInterfaces;
 
 import java.util.List;
-
-import tn.esprit.spring.gestionfoyerchedly.Entity.Bloc;
 import tn.esprit.spring.gestionfoyerchedly.Entity.Chambre;
 import tn.esprit.spring.gestionfoyerchedly.Entity.TypeChambre;
 
