@@ -1,20 +1,22 @@
-package tn.esprit.spring.gestionfoyerchedly.Entity;
+package tn.esprit.spring.gestionfoyerchedly.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
 import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table(name = "etudiant")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Etudiant {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long idEtudiant;

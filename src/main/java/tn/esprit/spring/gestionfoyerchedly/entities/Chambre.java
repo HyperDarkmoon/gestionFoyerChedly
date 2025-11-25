@@ -1,23 +1,25 @@
-package tn.esprit.spring.gestionfoyerchedly.Entity;
+package tn.esprit.spring.gestionfoyerchedly.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
 import java.util.List;
 
 @Entity
+@Table(name = "chambre")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Chambre {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long idChambre;
-    long numeroChambre;
+    Long idChambre;
+    Long numeroChambre;
 
     @Enumerated(EnumType.STRING)
     TypeChambre typeC;
@@ -27,12 +29,12 @@ public class Chambre {
     @JsonIgnore
     Bloc bloc;
 
-    @ManyToMany
-    @JoinTable(
+        @ManyToMany
+        @JoinTable(
             name = "chambre_reservation",
             joinColumns = @JoinColumn(name = "idChambre"),
             inverseJoinColumns = @JoinColumn(name = "idReservation")
-    )
-    @JsonIgnore
-    List<Reservation> reservations;
+        )
+        @JsonIgnore
+        List<Reservation> reservations;
 }

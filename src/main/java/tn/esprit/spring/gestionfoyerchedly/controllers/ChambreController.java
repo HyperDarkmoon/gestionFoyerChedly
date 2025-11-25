@@ -1,62 +1,71 @@
 package tn.esprit.spring.gestionfoyerchedly.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.spring.gestionfoyerchedly.Entity.Chambre;
-import tn.esprit.spring.gestionfoyerchedly.Services.ServiceInterface.IChambreService;
+import tn.esprit.spring.gestionfoyerchedly.entities.Chambre;
+import tn.esprit.spring.gestionfoyerchedly.entities.TypeChambre;
+import tn.esprit.spring.gestionfoyerchedly.repositories.ChambreRepository;
+import tn.esprit.spring.gestionfoyerchedly.services.ServiceInterfaces.ChambreServiceInterfaces;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
-
 @RestController
-@Tag(name = "Chambre", description = "Operations related to Chambre resources")
+@RequiredArgsConstructor
+@RequestMapping("/api/chambres")
+@Tag(name = "Chambre", description = "Endpoints de gestion des chambres et service avancé de disponibilité")
 public class ChambreController {
-    private final IChambreService chambreService;
 
-    public ChambreController(IChambreService chambreService) {
-        this.chambreService = chambreService;
+    private final ChambreServiceInterfaces chambreService;
+
+    @GetMapping
+    @Operation(summary = "Lister toutes les chambres", description = "Récupère la liste de l'ensemble des chambres")
+    public List<Chambre> retrieveAllChambres(){ return chambreService.retrieveAllChambres(); }
+
+    @PostMapping
+    @Operation(summary = "Créer une chambre", description = "Ajoute une nouvelle chambre")
+    public Chambre addChambre(@RequestBody Chambre c){ return chambreService.addChambre(c); }
+
+    @PutMapping
+    @Operation(summary = "Modifier une chambre", description = "Met à jour une chambre existante")
+    public Chambre updateChambre(@RequestBody Chambre c){ return chambreService.updateChambre(c); }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Consulter une chambre", description = "Récupère une chambre par identifiant")
+    public Chambre retrieveChambre(@PathVariable("id") long idChambre){ return chambreService.retrieveChambre(idChambre); }
+
+    // Advanced endpoint (Partie 5 preview): non reserved rooms for university name and type in current academic year
+    @GetMapping("/non-reservees")
+    @Operation(summary = "Chambres non réservées", description = "Retourne les chambres d'un type donné et d'une université qui ne sont pas réservées durant l'année universitaire courante")
+    public List<Chambre> chambresNonReservees(@RequestParam String nomUniversite, @RequestParam TypeChambre type){
+        return chambreService.getChambresNonReserveParNomUniversiteEtTypeChambre(nomUniversite, type);
     }
 
-    @GetMapping("/getAllChambres")
-    @Operation(summary = "List all chambres", description = "Retrieve the complete list of chambres")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "List of chambres returned successfully")
-    })
-    public List<Chambre> retrieveChambres() {
-        return chambreService.retrieveAllChambres();
+    @GetMapping("/universite")
+    @Operation(summary = "Chambres par université", description = "Retourne toutes les chambres d'une université (nom unique)")
+    public List<Chambre> chambresParUniversite(@RequestParam String nomUniversite){
+        return chambreService.getChambresParNomUniversite(nomUniversite);
     }
 
-    @PostMapping("/addChambre")
-    @Operation(summary = "Create a chambre", description = "Add a new chambre")
-    @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "Chambre created successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid request payload")
-    })
-    public Chambre addChambre(@RequestBody Chambre chambre) {
-        return chambreService.addChambre(chambre);
+    @GetMapping("/bloc-type/keywords")
+    @Operation(summary = "Chambres par bloc et type (Keywords)", description = "Filtre les chambres d'un bloc selon leur type - version Derived Keywords")
+    public List<Chambre> chambresParBlocEtTypeKeywords(@RequestParam long idBloc, @RequestParam TypeChambre type){
+        return chambreService.getChambresParBlocEtType(idBloc, type);
     }
 
-    @PutMapping("/updateChambre")
-    @Operation(summary = "Update a chambre", description = "Update an existing chambre")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Chambre updated successfully"),
-            @ApiResponse(responseCode = "404", description = "Chambre not found")
-    })
-    public Chambre updateChambre(@RequestBody Chambre chambre) {
-        return chambreService.updateChambre(chambre);
-    }
-
-    @GetMapping("/getChambre/{idChambre}")
-    @Operation(summary = "Get a chambre by ID", description = "Retrieve a single chambre by its identifier")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Chambre returned successfully"),
-            @ApiResponse(responseCode = "404", description = "Chambre not found")
-    })
-    public Chambre retrieveChambre(@PathVariable @Parameter(description = "Chambre identifier") long idChambre) {
-        return chambreService.retrieveChambre(idChambre);
+    @GetMapping("/bloc-type/jpql")
+    @Operation(summary = "Chambres par bloc et type (JPQL)", description = "Filtre les chambres d'un bloc selon leur type - version JPQL explicite")
+    public List<Chambre> chambresParBlocEtTypeJPQL(@RequestParam long idBloc, @RequestParam TypeChambre type){
+        // Using implementation method directly (cast to concrete class not required since we added a helper method) 
+        if(chambreService instanceof tn.esprit.spring.gestionfoyerchedly.services.ServiceImp.ChambreServiceImp impl){
+            return impl.getChambresParBlocEtTypeJPQL(idBloc, type);
+        }
+        return chambreService.getChambresParBlocEtType(idBloc, type);
     }
 }
+
+

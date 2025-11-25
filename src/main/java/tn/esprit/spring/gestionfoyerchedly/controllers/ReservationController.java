@@ -1,52 +1,60 @@
 package tn.esprit.spring.gestionfoyerchedly.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.spring.gestionfoyerchedly.Entity.Reservation;
-import tn.esprit.spring.gestionfoyerchedly.Services.ServiceInterface.IReservationService;
+import tn.esprit.spring.gestionfoyerchedly.entities.Reservation;
+import tn.esprit.spring.gestionfoyerchedly.services.ServiceInterfaces.ReservationServiceInterfaces;
 
 import java.util.List;
-
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.Date;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @RestController
-@Tag(name = "Reservation", description = "Operations related to Reservation resources")
+@RequiredArgsConstructor
+@RequestMapping("/api/reservations")
+@Tag(name = "Reservation", description = "Endpoints de gestion des réservations")
 public class ReservationController {
-    private final IReservationService reservationService;
 
-    public ReservationController(IReservationService reservationService) {
-        this.reservationService = reservationService;
+    private final ReservationServiceInterfaces reservationService;
+
+    @GetMapping
+    @Operation(summary = "Lister toutes les réservations", description = "Récupère la liste de l'ensemble des réservations")
+    public List<Reservation> retrieveAllReservation(){ return reservationService.retrieveAllReservation(); }
+
+    @PutMapping
+    @Operation(summary = "Modifier une réservation", description = "Met à jour une réservation existante")
+    public Reservation updateReservation(@RequestBody Reservation res){ return reservationService.updateReservation(res); }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Consulter une réservation", description = "Récupère une réservation par identifiant")
+    public Reservation retrieveReservation(@PathVariable("id") long idReservation){ return reservationService.retrieveReservation(idReservation); }
+
+    @GetMapping("/par-annee-et-universite")
+    @Operation(summary = "Réservations par année et université", description = "Retourne les réservations effectuées durant une année universitaire donnée et pour une université (nom unique)")
+    public List<Reservation> reservationsParAnneeEtUniversite(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date anneeUniversite,
+            @RequestParam String nomUniversite){
+        return reservationService.getReservationParAnneeUniversitaireEtNomUniversite(anneeUniversite, nomUniversite);
     }
 
-    @GetMapping("/getAllReservations")
-    @Operation(summary = "List all reservations", description = "Retrieve the complete list of reservations")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "List of reservations returned successfully")
-    })
-    public List<Reservation> retrieveReservations() {
-        return reservationService.retrieveAllReservation();
-    }
-
-    @PutMapping("/updateReservation")
-    @Operation(summary = "Update a reservation", description = "Update an existing reservation")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Reservation updated successfully"),
-            @ApiResponse(responseCode = "404", description = "Reservation not found")
-    })
-    public Reservation updateReservation(@RequestBody Reservation reservation) {
-        return reservationService.updateReservation(reservation);
-    }
-
-    @GetMapping("/getReservation/{idReservation}")
-    @Operation(summary = "Get a reservation by ID", description = "Retrieve a single reservation by its identifier")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Reservation returned successfully"),
-            @ApiResponse(responseCode = "404", description = "Reservation not found")
-    })
-    public Reservation retrieveReservation(@PathVariable @Parameter(description = "Reservation identifier") String idReservation) {
+    @GetMapping("/get/{id}")
+    public Reservation getReservation(@PathVariable("id") long idReservation) {
         return reservationService.retrieveReservation(idReservation);
+    }
+
+    @PostMapping("/ajouterReservation/{idChambre}/{cinEtudiant}")
+    public ResponseEntity<?> ajouterReservation(
+            @PathVariable long idChambre,
+            @PathVariable long cinEtudiant) {
+        try {
+            Reservation reservation = reservationService.ajouterReservation(idChambre, cinEtudiant);
+            return ResponseEntity.ok(reservation);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }

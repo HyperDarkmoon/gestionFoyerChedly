@@ -1,30 +1,32 @@
-package tn.esprit.spring.gestionfoyerchedly.Entity;
+package tn.esprit.spring.gestionfoyerchedly.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
 import java.util.List;
 
 @Entity
+@Table(name = "bloc")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Bloc {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long idBloc;
+    Long idBloc;
     String nomBloc;
-    long capaciteBloc;
+    Long capaciteBloc;
 
     @ManyToOne
     @JoinColumn(name = "idFoyer")
     @JsonIgnore
     Foyer foyer;
 
-    @OneToMany(mappedBy = "bloc")
+    @OneToMany(mappedBy = "bloc", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Chambre> chambres;
 }

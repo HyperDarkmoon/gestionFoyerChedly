@@ -1,21 +1,21 @@
-package tn.esprit.spring.gestionfoyerchedly.Entity;
+package tn.esprit.spring.gestionfoyerchedly.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import java.io.Serializable;
-import java.util.List;
+
 import java.util.Date;
+import java.util.List;
 
 @Entity
+@Table(name = "reservation")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Reservation implements Serializable {
-
+public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long idReservation;
@@ -23,10 +23,8 @@ public class Reservation implements Serializable {
     boolean estValide;
 
     @ManyToMany(mappedBy = "reservations")
-    @JsonIgnore
     List<Etudiant> etudiants;
 
     @ManyToMany(mappedBy = "reservations")
-    @JsonIgnore
     List<Chambre> chambres;
 }

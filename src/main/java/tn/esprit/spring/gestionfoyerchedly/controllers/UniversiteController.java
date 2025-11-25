@@ -1,62 +1,67 @@
 package tn.esprit.spring.gestionfoyerchedly.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.spring.gestionfoyerchedly.Entity.Universite;
-import tn.esprit.spring.gestionfoyerchedly.Services.ServiceInterface.IUniversiteService;
+import tn.esprit.spring.gestionfoyerchedly.entities.Universite;
+import tn.esprit.spring.gestionfoyerchedly.services.ServiceInterfaces.UniversiteServiceInterfaces;
 
 import java.util.List;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
-
 @RestController
-@Tag(name = "Universite", description = "Operations related to Universite resources")
+@RequiredArgsConstructor
+@RequestMapping("/api/universites")
+@Tag(name = "Universite", description = "Endpoints de gestion des universités")
 public class UniversiteController {
-    private final IUniversiteService universiteService;
 
-    public UniversiteController(IUniversiteService universiteService) {
-        this.universiteService = universiteService;
+    private final UniversiteServiceInterfaces universiteService;
+
+    @GetMapping
+    @Operation(summary = "Lister toutes les universités", description = "Récupère la liste de l'ensemble des universités")
+    public List<Universite> retrieveAllUniversities(){ return universiteService.retrieveAllUniversities(); }
+
+    @PostMapping
+    @Operation(summary = "Créer une université", description = "Ajoute une nouvelle université")
+    public Universite addUniversite(@RequestBody Universite u){ return universiteService.addUniversite(u); }
+
+    @PutMapping
+    @Operation(summary = "Modifier une université", description = "Met à jour une université existante")
+    public Universite updateUniversite(@RequestBody Universite u){ return universiteService.updateUniversite(u); }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Consulter une université", description = "Récupère une université par identifiant")
+    public Universite retrieveUniversite(@PathVariable("id") long idUniversite){ return universiteService.retrieveUniversite(idUniversite); }
+
+    @PutMapping("/{nomUniversite}/foyer/{idFoyer}")
+    @Operation(summary = "Affecter un foyer à une université", description = "Associe le foyer dont l'id est fourni à l'université identifiée par son nom")
+    public Universite affecterFoyerAUniversite(@PathVariable String nomUniversite, @PathVariable long idFoyer){
+        return universiteService.affecterFoyerAUniversite(idFoyer, nomUniversite);
     }
 
-    @GetMapping("/getAllUniversites")
-    @Operation(summary = "List all universites", description = "Retrieve the complete list of universities")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "List of universities returned successfully")
-    })
-    public List<Universite> retrieveUniversites() {
-        return universiteService.retrieveAllUniversities();
+    @DeleteMapping("/{id}/foyer")
+    @Operation(summary = "Désaffecter le foyer d'une université", description = "Supprime l'association 1-1 entre l'université et son foyer, si elle existe")
+    public Universite desaffecterFoyerAUniversite(@PathVariable("id") long idUniversite){
+        return universiteService.desaffecterFoyerAUniversite(idUniversite);
     }
 
-    @PostMapping("/addUniversite")
-    @Operation(summary = "Create an universite", description = "Add a new university")
-    @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "University created successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid request payload")
-    })
-    public Universite addUniversite(@RequestBody Universite universite) {
-        return universiteService.addUniversite(universite);
+    @DeleteMapping("/delete/{id}")
+    public void deleteUniversite(@PathVariable("id") Long idUniversite) {
+        //universiteService.removeUniversite(idUniversite);
     }
 
-    @PutMapping("/updateUniversite")
-    @Operation(summary = "Update an universite", description = "Update an existing university")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "University updated successfully"),
-            @ApiResponse(responseCode = "404", description = "University not found")
-    })
-    public Universite updateUniversite(@RequestBody Universite universite) {
-        return universiteService.updateUniversite(universite);
-    }
-
-    @GetMapping("/getUniversite/{idUniversite}")
-    @Operation(summary = "Get an universite by ID", description = "Retrieve a single university by its identifier")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "University returned successfully"),
-            @ApiResponse(responseCode = "404", description = "University not found")
-    })
-    public Universite retrieveUniversite(@PathVariable @Parameter(description = "University identifier") long idUniversite) {
-        return universiteService.retrieveUniversite(idUniversite);
+    @PutMapping("/affecterFoyerAUniversite/{idFoyer}/{nomUniversite}")
+    public ResponseEntity<?> affecterFoyerAUniversite(
+            @PathVariable long idFoyer,
+            @PathVariable String nomUniversite) {
+        try {
+            Universite u = universiteService.affecterFoyerAUniversite(idFoyer, nomUniversite);
+            return ResponseEntity.ok(u);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+        }
     }
 }

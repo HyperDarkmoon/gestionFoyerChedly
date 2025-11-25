@@ -1,19 +1,18 @@
-package tn.esprit.spring.gestionfoyerchedly.Services.ServiceImpl;
+package tn.esprit.spring.gestionfoyerchedly.services.ServiceImp;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import tn.esprit.spring.gestionfoyerchedly.Entity.Etudiant;
-import tn.esprit.spring.gestionfoyerchedly.Repository.EtudiantRepository;
-import tn.esprit.spring.gestionfoyerchedly.Services.ServiceInterface.IEtudiantService;
+import tn.esprit.spring.gestionfoyerchedly.entities.Etudiant;
+import tn.esprit.spring.gestionfoyerchedly.repositories.EtudiantRepository;
+import tn.esprit.spring.gestionfoyerchedly.services.ServiceInterfaces.EtudiantServiceInterfaces;
 
 import java.util.List;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
-public class EtudiantServiceImpl implements IEtudiantService {
-    EtudiantRepository etudiantRepository;
+public class EtudiantServiceImp implements EtudiantServiceInterfaces {
+
+    private final EtudiantRepository etudiantRepository;
 
     @Override
     public List<Etudiant> retrieveAllEtudiants() { return etudiantRepository.findAll(); }

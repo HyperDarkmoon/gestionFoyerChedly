@@ -1,0 +1,85 @@
+package tn.esprit.spring.gestionfoyerchedly.services.ServiceImp;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import tn.esprit.spring.gestionfoyerchedly.entities.Bloc;
+import tn.esprit.spring.gestionfoyerchedly.entities.Chambre;
+import tn.esprit.spring.gestionfoyerchedly.entities.TypeChambre;
+import tn.esprit.spring.gestionfoyerchedly.repositories.BlocRepository;
+import tn.esprit.spring.gestionfoyerchedly.repositories.ChambreRepository;
+import tn.esprit.spring.gestionfoyerchedly.services.ServiceInterfaces.ChambreServiceInterfaces;
+
+import java.util.List;
+import java.time.LocalDate;
+import java.time.ZoneId;
+
+@Service
+@RequiredArgsConstructor
+public class ChambreServiceImp implements ChambreServiceInterfaces {
+
+    private final ChambreRepository chambreRepository;
+    private final BlocRepository blocRepository;
+
+    @Override
+    public List<Chambre> retrieveAllChambres() { return chambreRepository.findAll(); }
+
+    @Override
+    public Chambre addChambre(Chambre c) { return chambreRepository.save(c); }
+
+    @Override
+    public Chambre updateChambre(Chambre c) { return chambreRepository.save(c); }
+
+    @Override
+    public Chambre retrieveChambre(long idChambre) { return chambreRepository.findById(idChambre).orElse(null); }
+
+    // Partie 5
+    @Override
+    public List<Chambre> getChambresParNomUniversite(String nomUniversite) {
+        return chambreRepository.findByBloc_Foyer_Universite_NomUniversite(nomUniversite);
+    }
+
+    @Override
+    public List<Chambre> getChambresParBlocEtType(long idBloc, tn.esprit.spring.gestionfoyerchedly.entities.TypeChambre typeC) {
+        // Use derived keywords implementation by default
+        return chambreRepository.findByBloc_IdBlocAndTypeC(idBloc, typeC);
+    }
+
+    // Alternative JPQL approach (not part of interface, but available for controller demo)
+    public List<Chambre> getChambresParBlocEtTypeJPQL(long idBloc, tn.esprit.spring.gestionfoyerchedly.entities.TypeChambre typeC) {
+        // Without JPQL we simply delegate to the same derived method
+        return chambreRepository.findByBloc_IdBlocAndTypeC(idBloc, typeC);
+    }
+
+    @Override
+    public List<Chambre> getChambresNonReserveParNomUniversiteEtTypeChambre(String nomUniversite, tn.esprit.spring.gestionfoyerchedly.entities.TypeChambre type) {
+        int targetYear = LocalDate.now().getYear();
+        // Fetch all chambres for this université and type, then filter out those having a reservation in the same year
+        List<Chambre> candidates = chambreRepository.findByTypeCAndBloc_Foyer_Universite_NomUniversite(type, nomUniversite);
+        return candidates.stream()
+                .filter(c -> c.getReservations() == null || c.getReservations().stream()
+                        .noneMatch(r -> r.getAnneeUniversitaire() != null &&
+                                r.getAnneeUniversitaire().toInstant().atZone(ZoneId.systemDefault()).getYear() == targetYear))
+                .toList();
+    }
+
+    @Override
+    public List<Chambre> affecterChambresABloc(List<Long> numChambre, long idBloc) {
+        Bloc bloc = blocRepository.findById(idBloc)
+                .orElseThrow(() -> new RuntimeException("Bloc non trouvé avec ID : " + idBloc));
+
+        List<Chambre> chambres = chambreRepository.findByNumeroChambreIn(numChambre);
+
+        // Affecter le bloc à chaque chambre
+        for (Chambre chambre : chambres) {
+            chambre.setBloc(bloc);
+        }
+
+        // Sauvegarder toutes les chambres
+        return chambreRepository.saveAll(chambres);
+    }
+
+    @Override
+    public List<Chambre> getChambresByTypeCAndBlocFoyerCapaciteFoyer(TypeChambre type, long c) {
+        return chambreRepository.findByTypeCAndBlocFoyerCapaciteFoyer(type, c);
+    }
+}

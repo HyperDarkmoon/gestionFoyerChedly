@@ -1,18 +1,18 @@
-package tn.esprit.spring.gestionfoyerchedly.Entity;
+package tn.esprit.spring.gestionfoyerchedly.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Entity
+@Table(name = "universite")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Universite {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long idUniversite;
@@ -20,6 +20,6 @@ public class Universite {
     String adresse;
 
     @OneToOne
-    @JsonIgnore
+    @JoinColumn(name = "idFoyer")
     Foyer foyer;
 }
